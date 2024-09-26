@@ -25,7 +25,7 @@ screen = pygame.display.set_mode((480, 320))
 pygame.display.set_caption('WoW Character Display')
 
 # Define a font
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font("morpheus.ttf", 30)
 
 # Sample character data
 character_data = {
