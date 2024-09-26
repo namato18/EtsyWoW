@@ -1,3 +1,4 @@
+import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -23,6 +24,12 @@ if response.status_code == 200:
 else:
     print(f"Failed to get access token: {response.status_code}")
 
+#############################
+#############################
+#############################
+#############################
+#############################
+
 def get_pvp_season(token):
     url = "https://us.api.blizzard.com/data/wow/pvp-season/index"
     
@@ -47,6 +54,12 @@ def get_pvp_season(token):
         print(f"Failed to retrieve data: {response.status_code}")
         return None
     
+#############################
+#############################
+#############################
+#############################
+#############################
+    
 def GetCharacterRatings(charactername, server, bracket, token):
         
     url = f"https://us.api.blizzard.com/profile/wow/character/{server}/{charactername}/pvp-bracket/{bracket}"
@@ -68,4 +81,30 @@ def GetCharacterRatings(charactername, server, bracket, token):
         
     print(response.json()['rating'])
     
-GetCharacterRatings("tacobelle", "drenden", "3v3", token = access_token)
+#############################
+#############################
+#############################
+#############################
+#############################
+    
+def GetCharacterPic(charactername, server, token):
+    url = f"https://us.api.blizzard.com/profile/wow/character/{server}/{charactername}/character-media"
+    params = {
+        "namespace" : "profile-us",
+        "locale" : "en_US",
+        "access_token" : token
+    }
+    
+    response = requests.get(url, params=params)
+    
+    for key in response.json():
+        print(key)
+        
+    pics_df = response.json()['assets']
+    
+    df = pd.DataFrame(pics_df)
+    
+    main_raw_pic = df.value[2]
+    
+    return(main_raw_pic)
+        

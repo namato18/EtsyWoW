@@ -2,7 +2,8 @@ import pygame
 import sys
 import requests
 from requests.auth import HTTPBasicAuth
-from Funcs import get_pvp_season
+from Funcs import *
+from io import BytesIO
 
 # Your client ID and client secret
 client_id = '6ab02cc1a1c140f0bd213d0b27e8c74c'
@@ -27,7 +28,8 @@ else:
 
 
 pvp_season = get_pvp_season(token = access_token)
-print(pvp_season)
+character_image_url = GetCharacterPic("tacobelle", "drenden", token = access_token)
+
 
 
 # Initialize Pygame
@@ -48,8 +50,19 @@ character_data = {
     "class": "Shaman",
     "guild": "Warchief",
     "faction": "Horde",
-    "season": pvp_season
+    "season": pvp_season,
+    "image_url" : character_image_url
 }
+
+# Download and load the character's image
+response = requests.get(character_data["image_url"])
+if response.status_code == 200:
+    image_data = BytesIO(response.content)  # Convert to a file-like object
+    character_image = pygame.image.load(image_data)  # Load image into pygame
+    character_image = pygame.transform.scale(character_image, (300, 400))  # Resize the image if needed
+else:
+    print(f"Failed to load image: {response.status_code}")
+    character_image = None
 
 # Main loop to keep the window open and render content
 while True:
@@ -78,6 +91,10 @@ while True:
     screen.blit(guild_text, (20, 180))
     screen.blit(faction_text, (20, 220))
     screen.blit(season_text, (20, 260))
+    
+    # Blit the character image onto the screen (if it was successfully loaded)
+    if character_image:
+        screen.blit(character_image, (200, -50))  # Place it on the right side
 
     # Update the display
     pygame.display.flip()
