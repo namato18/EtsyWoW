@@ -12,23 +12,8 @@ client_secret = 'VTrUzsJw0XDmKfJvM1QIXpn1QC1Hs96e'
 # OAuth token URL
 url = 'https://us.battle.net/oauth/token'
 
-# Request access token
-response = requests.post(
-    url,
-    data={'grant_type': 'client_credentials'},
-    auth=HTTPBasicAuth(client_id, client_secret)
-)
-
-# Parse response
-if response.status_code == 200:
-    access_token = response.json()['access_token']
-    print(f"Access Token: {access_token}")
-else:
-    print(f"Failed to get access token: {response.status_code}")
-
-
 pvp_season = get_pvp_season(token = access_token)
-character_image_url = GetCharacterPic("tacobelle", "drenden", token = access_token)
+character_image_url = GetCharacterPic("gothealz", "drenden", token = access_token)
 
 
 

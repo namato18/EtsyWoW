@@ -20,7 +20,7 @@ response = requests.post(
 # Parse response
 if response.status_code == 200:
     access_token = response.json()['access_token']
-    print(f"Access Token: {access_token}")
+    # print(f"Access Token: {access_token}")
 else:
     print(f"Failed to get access token: {response.status_code}")
 
@@ -76,10 +76,10 @@ def GetCharacterRatings(charactername, server, bracket, token):
     
     # print(response.json())
     
-    for key in response.json():
-        print(key)
+    # for key in response.json():
+    #     print(key)
         
-    print(response.json()['rating'])
+    return(response.json()['rating'])
     
 #############################
 #############################
@@ -97,8 +97,8 @@ def GetCharacterPic(charactername, server, token):
     
     response = requests.get(url, params=params)
     
-    for key in response.json():
-        print(key)
+    # for key in response.json():
+    #     print(key)
         
     pics_df = response.json()['assets']
     
